@@ -25,6 +25,7 @@ const CalenderQuestion = ({question, updateQuestionSolvedStatus}) => {
         solved: true,
       }
       updateQuestionSolvedStatus(q)
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
