@@ -1,0 +1,15 @@
+
+.UserInfoBox{
+    height: 100%;
+    width: 100%;
+    padding: 25px;
+}
+
+.key{
+    font-style: italic;
+    color: grey;
+}
+
+td{
+    padding: 10px 20px 0px 0px;
+}

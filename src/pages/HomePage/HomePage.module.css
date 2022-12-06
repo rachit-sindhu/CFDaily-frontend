@@ -1,0 +1,52 @@
+.Container{
+    height: 100vh;
+    width: 100vw;
+    border: 1px solid transparent;
+    /* position: relative; */
+}
+
+.Elements{
+    width: 80%;
+    margin: auto;
+}
+
+.Backfill{
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    z-index: -100;
+}
+
+.Title{
+    margin-top: 0px;
+    font-size: 60px;
+    color: white;
+    /* font-family: 'Playfair Display'; */
+}
+
+.TopLayer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Nav{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    color: white;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.UserLogo{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-left: 20px;
+    cursor: pointer;
+    background-color: lightpink;
+}
