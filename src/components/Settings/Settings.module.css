@@ -52,3 +52,13 @@
     display: flex;
     justify-content: end;
 }
+
+@media screen and (max-width:500px) {
+    .Settings{
+        right: -100%;
+        max-width: 350px;
+    }
+    .Show{
+        right: 0%;
+    }
+}

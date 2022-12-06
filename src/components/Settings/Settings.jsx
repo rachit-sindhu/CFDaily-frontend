@@ -21,7 +21,6 @@ const Settings = () => {
   const dispatch = useDispatch();
 
   const [showUpdateBox, setShowUpdateBox] = useState(false);
-  const [selectedUpdate, setSelectedUpdate] = useState(1);
 
   const closeButton = (
     <IconButton onClick={() => setShowUpdateBox(false)}>

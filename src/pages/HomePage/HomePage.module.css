@@ -48,5 +48,21 @@
     border-radius: 50%;
     margin-left: 20px;
     cursor: pointer;
-    background-color: lightpink;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+@media screen and (max-width:1000px){
+    .TopLayer{
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:500px){
+    .Elements{
+        width: 90%;
+    }
 }

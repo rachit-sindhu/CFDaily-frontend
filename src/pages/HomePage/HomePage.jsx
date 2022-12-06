@@ -8,6 +8,7 @@ import styles from "./HomePage.module.css";
 
 import { ModalAction } from "../../store/reducers/modal";
 import { useEffect } from "react";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -21,8 +22,9 @@ const HomePage = () => {
       <div className={styles.Backfill}></div>
       <div className={styles.Elements}>
         <div className={styles.Nav}>
-            <h1>50🔥</h1>
-            <div className={styles.UserLogo} onClick={() => dispatch(ModalAction.showSettingsModal())}></div>
+            <div className={styles.UserLogo} onClick={() => dispatch(ModalAction.showSettingsModal())}>
+              <SettingsIcon />
+            </div>
         </div>
         <h1 className={styles.Title}>CF Daily</h1>
         <div className={styles.TopLayer}>

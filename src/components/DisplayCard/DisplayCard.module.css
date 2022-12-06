@@ -1,7 +1,7 @@
 
 .DisplayContainer{
     width: 45%;
-    min-height: 400px;
+    /* min-height: 400px; */
     position: relative;
 }
 
@@ -25,4 +25,10 @@
     background-color: purple;
     z-index: -10;
     border: 1px solid black;
+}
+
+@media screen and (max-width:1000px){
+    .DisplayContainer{
+        width: 100%;
+    }
 }
