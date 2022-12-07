@@ -71,7 +71,7 @@ const UserInfo = () => {
                 <h2 className={styles.key}>Maximum Streak</h2>
               </td>
               <td>
-                <h2>{profileData.handle.maxStreak}🔥</h2>
+                <h2>{profileData.handle.maxStreak} days🔥</h2>
               </td>
             </tr>
             <tr>
