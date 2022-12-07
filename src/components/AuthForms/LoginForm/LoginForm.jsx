@@ -80,6 +80,7 @@ const LoginForm = () => {
         variant="outlined"
         style={InputCss}
         value={password}
+        type={"password"}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
