@@ -24,7 +24,12 @@ export const showModalAndSetQuestion = (index) => {
   store.dispatch(ModalAction.showCalenderModal());
 };
 
-export const validateQuestion = async (question) => {
+export const validateQuestion = async () => {
+  let { selectedModalQuestionIndex, monthlyProblems } =
+    store.getState().problemsData;
+  const question = monthlyProblems[selectedModalQuestionIndex];
+  //question is the question user want to validate,
+
   store.dispatch(ProblemsDataActions.setValidateLoading(true));
   try {
     const questiondate = new Date(Date.parse(question.date));
@@ -32,14 +37,13 @@ export const validateQuestion = async (question) => {
       date: questiondate,
     });
 
-    let { selectedModalQuestionIndex, monthlyProblems } =
-      store.getState().problemsData;
+    let newMonthlyProblems = [...monthlyProblems];
+    newMonthlyProblems[selectedModalQuestionIndex].solved = true
 
-    monthlyProblems[selectedModalQuestionIndex].solved = true;
-
-    store.dispatch(ProblemsDataActions.setMonthlyProblems(monthlyProblems));
+    store.dispatch(ProblemsDataActions.setMonthlyProblems(newMonthlyProblems));
     fetchUserDetails();
   } catch (e) {
+    console.log(e);
     console.log("not able to validate question or question not solved");
   }
 

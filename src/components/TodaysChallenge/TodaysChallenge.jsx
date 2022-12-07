@@ -6,7 +6,7 @@ import BoxLoading from "../UI/BoxLoading/BoxLoading";
 const TodaysChallenge = () => {
   const {dailyChallenge} = useSelector((state) => state.problemsData);
   const {profileData} = useSelector(state => state.userData)
-  console.log(dailyChallenge, profileData);
+ 
   return (
     <>
       {dailyChallenge == null  || profileData == null? (
