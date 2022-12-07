@@ -101,7 +101,7 @@ const UserInfo = () => {
                 <h2 className={styles.key}>Problems Solved</h2>
               </td>
               <td>
-                <h2>0</h2>
+                <h2>{userData.handle.daily.length}</h2>
               </td>
             </tr>
           </table>

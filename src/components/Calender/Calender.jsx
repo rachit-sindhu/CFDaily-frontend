@@ -40,6 +40,8 @@ const Calender = () => {
   const [modalQuestionIndex, setModalQuestionIndex] = useState(1);
 
   const createCalenderForMonth = (startDay, noofdays) => {
+
+    console.log(startDay);
     const cal = [];
 
     let day = 1;
@@ -110,7 +112,7 @@ const Calender = () => {
   const getFirstDay = () => {
     const nd = new Date(calMonth);
     nd.setDate(1);
-    return nd.getDay() + 1;
+    return nd.getDay();
   };
 
   const fetchMonthChallenges = async () => {
