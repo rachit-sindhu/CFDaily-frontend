@@ -47,7 +47,7 @@ const CalenderQuestion = () => {
                   disabled={validateLoading}
                 >
                   {validateLoading ? (
-                    <CircularProgress style={{ color: "primary" }} />
+                    <CircularProgress style={{ color: "white" }} />
                   ) : (
                     <p>Validate</p>
                   )}
