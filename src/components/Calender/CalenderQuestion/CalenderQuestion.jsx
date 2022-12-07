@@ -1,11 +1,15 @@
 import styles from "./CalenderQuestion.module.css";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { useState } from "react";
-import axios from "../../../baseAxios";
+import {validateQuestion} from "../../../Apis/problemsApi";
 import { Button, CircularProgress } from "@mui/material";
+import { useSelector } from "react-redux";
 
-const CalenderQuestion = ({question, updateQuestionSolvedStatus}) => {
-  const [loading, setLoading] = useState(false);
+const CalenderQuestion = () => {
+  
+  const {monthlyProblems, selectedModalQuestionIndex, validateLoading} = useSelector(state => state.problemsData);
+
+  const question = selectedModalQuestionIndex ? monthlyProblems[selectedModalQuestionIndex] : null;
 
   const getFormatedDate = (date) => {
     var options = { year: "numeric", month: "long", day: "numeric" };
@@ -13,24 +17,6 @@ const CalenderQuestion = ({question, updateQuestionSolvedStatus}) => {
     return dobj.toLocaleDateString("en-US", options);
   };
 
-  const validateQuestion = async () => {
-    setLoading(true);
-    try {
-      const questiondate = new Date(Date.parse(question.date));
-      const res = await axios.post("/api/v1/problems/validate", {
-        date: questiondate,
-      });
-      const q = {
-        ...question,
-        solved: true,
-      }
-      updateQuestionSolvedStatus(q)
-      window.location.reload();
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
-  };
 
   return (
     <>
@@ -56,9 +42,9 @@ const CalenderQuestion = ({question, updateQuestionSolvedStatus}) => {
                   variant="contained"
                   style={{ width: "100%", height: "50px", marginTop: "20px" }}
                   onClick={validateQuestion}
-                  disabled={loading}
+                  disabled={validateLoading}
                 >
-                  {loading ? (
+                  {validateLoading ? (
                     <CircularProgress style={{ color: "primary" }} />
                   ) : (
                     <p>Validate</p>

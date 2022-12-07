@@ -6,10 +6,13 @@ import Modal from "../Modal/Modal";
 
 import { ModalAction } from "../../store/reducers/modal";
 import { UserDataActions } from "../../store/reducers/userData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CalenderQuestion from "./CalenderQuestion/CalenderQuestion";
 import { useEffect, useState } from "react";
-import axios from "../../baseAxios";
+import {
+  fetchMonthQuestion,
+  showModalAndSetQuestion,
+} from "../../Apis/problemsApi";
 import BoxLoading from "../UI/BoxLoading/BoxLoading";
 
 const months = [
@@ -32,15 +35,12 @@ function daysInThisMonth(now) {
 }
 
 const Calender = () => {
-  const dispatch = useDispatch();
-
   const [calMonth, setCalMonth] = useState(new Date());
-  const [monthDailyProblems, setMonthDailyProblems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [modalQuestionIndex, setModalQuestionIndex] = useState(1);
+  const { monthlyProblems, loading } = useSelector(
+    (state) => state.problemsData
+  );
 
   const createCalenderForMonth = (startDay, noofdays) => {
-
     console.log(startDay);
     const cal = [];
 
@@ -66,19 +66,20 @@ const Calender = () => {
           //here we are checking if mDPI is not out of bound && have same date as currDate
           //then we are pushing a cell which have a question in it
           if (
-            mDPI < monthDailyProblems.length &&
-            sameDate(monthDailyProblems[mDPI].date)
+            mDPI < monthlyProblems.length &&
+            sameDate(monthlyProblems[mDPI].date)
           ) {
             const ind = mDPI; //i'm having another index because javascript is not remembering mDPI
             currrow.push(
               <div
-                className={monthDailyProblems[mDPI].solved ? styles.SolvedCell : styles.Cell}
+                className={
+                  monthlyProblems[mDPI].solved ? styles.SolvedCell : styles.Cell
+                }
                 onClick={() => {
-                  setModalQuestionIndex(ind);
-                  dispatch(ModalAction.showCalenderModal());
+                  showModalAndSetQuestion(ind);
                 }}
               >
-                {monthDailyProblems[mDPI].solved ? null: displayday}
+                {monthlyProblems[mDPI].solved ? null : displayday}
               </div>
             );
             mDPI++;
@@ -106,7 +107,7 @@ const Calender = () => {
     calMonth.setMonth(calMonth.getMonth() + val);
     const nd = new Date(calMonth);
     setCalMonth(nd);
-    fetchMonthChallenges();
+    fetchMonthQuestion(calMonth);
   };
 
   const getFirstDay = () => {
@@ -115,22 +116,8 @@ const Calender = () => {
     return nd.getDay();
   };
 
-  const fetchMonthChallenges = async () => {
-    setLoading(true);
-    const res = await axios.post("/api/v1/problems/monthlyQuestions", {
-      date: calMonth,
-    });
-    console.log(res.data.data);
-    console.log("setting months data");
-    setMonthDailyProblems(res.data.data);
-
-    let n = res.data.data.length;
-    if (n) dispatch(UserDataActions.setDailyChallenge(res.data.data[n - 1])); //last day data
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchMonthChallenges();
+    fetchMonthQuestion(calMonth);
   }, []);
 
   return (
@@ -161,17 +148,11 @@ const Calender = () => {
             <div style={{ marginTop: "40px" }}></div>
             {createCalenderForMonth(getFirstDay(), daysInThisMonth(calMonth))}
           </div>
-          <Modal>
-            <CalenderQuestion
-              question={monthDailyProblems[modalQuestionIndex]}
-              updateQuestionSolvedStatus={(q) => {
-                monthDailyProblems[modalQuestionIndex] = q;
-                setMonthDailyProblems([...monthDailyProblems]);
-              }}
-            />
-          </Modal>
         </div>
       )}
+      <Modal>
+        <CalenderQuestion />
+      </Modal>
     </>
   );
 };

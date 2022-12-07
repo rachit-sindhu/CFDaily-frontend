@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import BoxLoading from "../UI/BoxLoading/BoxLoading";
 
 const TodaysChallenge = () => {
-  const {profileData, dailyChallenge} = useSelector((state) => state.userData);
+  const {dailyChallenge} = useSelector((state) => state.problemsData);
+  const {profileData} = useSelector(state => state.userData)
   console.log(dailyChallenge, profileData);
   return (
     <>

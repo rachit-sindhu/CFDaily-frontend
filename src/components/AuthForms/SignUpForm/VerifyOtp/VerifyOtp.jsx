@@ -2,7 +2,7 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import customAxios from "../../../../baseAxios";
+import customAxios from "../../../../Apis/baseAxios";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "./VerifyOtp.module.css";
 import { AuthActions } from "../../../../store/reducers/auth";

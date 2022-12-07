@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
-import axios from "../../../../baseAxios";
+import axios from "../../../../Apis/baseAxios";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "../UpdateStyle.module.css";
 

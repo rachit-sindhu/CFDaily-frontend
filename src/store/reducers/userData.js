@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     profileData: null,
-    dailyChallenge: null,
+    loading: true,
 };
 
 
@@ -13,10 +13,8 @@ const UserDataSlice = createSlice({
         setProfile: (state, action) => {
             state.profileData = action.payload;
         },
-        setDailyChallenge: (state, action) => {
-            if(state.dailyChallenge == null){
-                state.dailyChallenge = action.payload;
-            }
+        setLoading: (state, action) => {
+            state.loading = action.payload;
         }
     }
 });

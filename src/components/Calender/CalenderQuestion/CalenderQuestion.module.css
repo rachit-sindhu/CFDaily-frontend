@@ -68,3 +68,11 @@
 .ValidateButton:hover{
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; 
 }
+
+
+@media screen and (max-width: 500px){
+    .CalenderQuestion{
+        height: 45%;
+        width: 90%;
+    }
+}

@@ -1,7 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
-import customAxios from "../../../../baseAxios";
+import customAxios from "../../../../Apis/baseAxios";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "./VerifyOtp.module.css";
 
