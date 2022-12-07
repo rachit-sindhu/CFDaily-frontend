@@ -4,10 +4,12 @@ import { useState } from "react";
 import {validateQuestion} from "../../../Apis/problemsApi";
 import { Button, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
+import userData from "../../../store/reducers/userData";
 
 const CalenderQuestion = () => {
   
   const {monthlyProblems, selectedModalQuestionIndex, validateLoading} = useSelector(state => state.problemsData);
+  const {profileData} = useSelector(state => state.userData);
 
   const question = selectedModalQuestionIndex != null ? monthlyProblems[selectedModalQuestionIndex] : null;
 
@@ -24,7 +26,7 @@ const CalenderQuestion = () => {
         <div className={styles.CalenderQuestion}>
           <div className={styles.Shadow}></div>
           <h2>
-            {getFormatedDate(question.date)}, <i>Pupil</i>
+            {getFormatedDate(question.date)}, <i>{profileData.handle.rank}</i>
           </h2>
           <div style={{ height: "10px" }}></div>
           <h1>{question.name}</h1>
