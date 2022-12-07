@@ -6,6 +6,7 @@ const initialState = {
     loading: true,
     validateLoading: false,
     selectedModalQuestionIndex : 0,
+    currentMonth : new Date(),
 };
 
 
@@ -28,6 +29,13 @@ const ProblemsDataSlice = createSlice({
         },
         setValidateLoading: (state, action) => {
             state.validateLoading = action.payload;
+        },
+        setDailyChallenge: (state) => {
+            let n = state.monthlyProblems.length;
+            state.dailyChallenge = state.monthlyProblems[n-1];
+        },
+        setCurrentMonth : (state, action) => {
+            state.currentMonth = action.payload;
         }
     }
 });

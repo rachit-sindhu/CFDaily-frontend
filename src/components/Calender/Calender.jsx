@@ -4,16 +4,15 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Modal from "../Modal/Modal";
 
-import { ModalAction } from "../../store/reducers/modal";
-import { UserDataActions } from "../../store/reducers/userData";
 import { useDispatch, useSelector } from "react-redux";
 import CalenderQuestion from "./CalenderQuestion/CalenderQuestion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   fetchMonthQuestion,
   showModalAndSetQuestion,
 } from "../../Apis/problemsApi";
 import BoxLoading from "../UI/BoxLoading/BoxLoading";
+import { ProblemsDataActions } from "../../store/reducers/problemsData";
 
 const months = [
   "January",
@@ -35,13 +34,13 @@ function daysInThisMonth(now) {
 }
 
 const Calender = () => {
-  const [calMonth, setCalMonth] = useState(new Date());
-  const { monthlyProblems, loading } = useSelector(
+  const { monthlyProblems, loading, currentMonth } = useSelector(
     (state) => state.problemsData
   );
 
+  const dispatch = useDispatch();
+
   const createCalenderForMonth = (startDay, noofdays) => {
-    console.log(startDay);
     const cal = [];
 
     let day = 1;
@@ -104,20 +103,20 @@ const Calender = () => {
   };
 
   const changeMonth = (val) => {
-    calMonth.setMonth(calMonth.getMonth() + val);
-    const nd = new Date(calMonth);
-    setCalMonth(nd);
-    fetchMonthQuestion(calMonth);
+    let newMonth = new Date(currentMonth);
+    newMonth.setMonth(newMonth.getMonth() + val);
+    dispatch(ProblemsDataActions.setCurrentMonth(newMonth));
+    fetchMonthQuestion();
   };
 
   const getFirstDay = () => {
-    const nd = new Date(calMonth);
+    const nd = new Date(currentMonth);
     nd.setDate(1);
     return nd.getDay();
   };
 
   useEffect(() => {
-    fetchMonthQuestion(calMonth);
+    fetchMonthQuestion();
   }, []);
 
   return (
@@ -129,8 +128,8 @@ const Calender = () => {
           <div className={styles.Title}>
             <div className={styles.Month}>
               <h1>{`${
-                months[calMonth.getMonth()]
-              }, ${calMonth.getFullYear()}`}</h1>
+                months[currentMonth.getMonth()]
+              }, ${currentMonth.getFullYear()}`}</h1>
               <div className={styles.ChangeButtons}>
                 <div className={styles.Button} onClick={() => changeMonth(-1)}>
                   <ArrowBackIosNewIcon />
@@ -146,7 +145,7 @@ const Calender = () => {
               })}
             </div>
             <div style={{ marginTop: "40px" }}></div>
-            {createCalenderForMonth(getFirstDay(), daysInThisMonth(calMonth))}
+            {createCalenderForMonth(getFirstDay(), daysInThisMonth(currentMonth))}
           </div>
         </div>
       )}

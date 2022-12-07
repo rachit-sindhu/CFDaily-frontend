@@ -9,7 +9,8 @@ const CalenderQuestion = () => {
   
   const {monthlyProblems, selectedModalQuestionIndex, validateLoading} = useSelector(state => state.problemsData);
 
-  const question = selectedModalQuestionIndex ? monthlyProblems[selectedModalQuestionIndex] : null;
+  const question = selectedModalQuestionIndex != null ? monthlyProblems[selectedModalQuestionIndex] : null;
+  console.log(question)
 
   const getFormatedDate = (date) => {
     var options = { year: "numeric", month: "long", day: "numeric" };
