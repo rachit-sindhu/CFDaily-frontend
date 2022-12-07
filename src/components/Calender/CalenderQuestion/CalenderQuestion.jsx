@@ -22,7 +22,7 @@ const CalenderQuestion = () => {
 
   return (
     <>
-      {question ? (
+      {question && profileData ? (
         <div className={styles.CalenderQuestion}>
           <div className={styles.Shadow}></div>
           <h2>
@@ -42,7 +42,7 @@ const CalenderQuestion = () => {
               {!question.solved ? (
                 <Button
                   variant="contained"
-                  style={{ width: "100%", height: "50px", marginTop: "20px" }}
+                  style={{ width: "100%", height: "50px", marginTop: "20px", backgroundColor:"purple" }}
                   onClick={validateQuestion}
                   disabled={validateLoading}
                 >
