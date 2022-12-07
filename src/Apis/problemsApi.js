@@ -33,13 +33,18 @@ export const validateQuestion = async () => {
   store.dispatch(ProblemsDataActions.setValidateLoading(true));
   try {
     const questiondate = new Date(Date.parse(question.date));
+    console.log(questiondate);
     await axios.post("/api/v1/problems/validate", {
       date: questiondate,
     });
 
-    let newMonthlyProblems = [...monthlyProblems];
-    newMonthlyProblems[selectedModalQuestionIndex].solved = true
+    let newMonthlyProblems = monthlyProblems.map(ques => {
+        return {
+            ...ques,
+        }
+    })
 
+    newMonthlyProblems[selectedModalQuestionIndex].solved = true
     store.dispatch(ProblemsDataActions.setMonthlyProblems(newMonthlyProblems));
     fetchUserDetails();
   } catch (e) {
