@@ -5,11 +5,9 @@ import { ModalAction } from "../../store/reducers/modal";
 import { AuthActions } from "../../store/reducers/auth";
 import OptionTile from "./OptionTile/OptionTile";
 
-import HdrAutoIcon from "@mui/icons-material/HdrAuto";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LogoutIcon from "@mui/icons-material/Logout";
-import EmailIcon from "@mui/icons-material/Email";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
-import PatternIcon from "@mui/icons-material/Pattern";
 import { useState } from "react";
 import { IconButton } from "@mui/material";
 
@@ -41,7 +39,7 @@ const Settings = () => {
         <OptionTile
           title={"Update CF Handle"}
           icon={<AlternateEmailIcon fontSize="large" />}
-          onClickHandler={() =>  setShowUpdateBox(true)}
+          onClickHandler={() => setShowUpdateBox(true)}
         />
         <OptionTile
           title={"Logout"}
@@ -60,6 +58,20 @@ const Settings = () => {
           ].join(" ")}
         >
           <UpdateCFHandle closeButton={closeButton} />
+        </div>
+        <div className={styles.Creators}>
+          <h3>For problem solvers, By problem solvers ✌️</h3>
+          <div className={styles.Links}>
+            <a className={styles.Link} href="https://www.linkedin.com/in/sushantm04/" target="_blank">
+              <LinkedInIcon />
+              <p> Sushant Mishra</p>
+            </a>
+            <div className={styles.Divider}>||</div>
+            <a className={styles.Link} href="https://www.linkedin.com/in/rachit-sindhu-1aa1aa24a/" target="_blank">
+              <LinkedInIcon />
+              <p>Rachit Sindhu</p>
+            </a>
+          </div>
         </div>
       </div>
     </>
