@@ -4,7 +4,7 @@ import {store} from '../store/store';
 
 let isRefreshTokenFetched = false;
 const customAxios = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://red-witty-gosling.cyclic.app/",
 });
 
 customAxios.interceptors.request.use((config) => {
