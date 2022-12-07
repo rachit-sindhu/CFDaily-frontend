@@ -19,7 +19,6 @@ export const fetchMonthQuestion = async () => {
 };
 
 export const showModalAndSetQuestion = (index) => {
-  console.log("question index", index);
   store.dispatch(ProblemsDataActions.setQuestionIndex(index));
   store.dispatch(ModalAction.showCalenderModal());
 };
