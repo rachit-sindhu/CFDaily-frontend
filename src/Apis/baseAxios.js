@@ -2,7 +2,7 @@ import axios from "axios";
 import {AuthActions} from '../store/reducers/auth';
 import {store} from '../store/store';
 
-const baseURL = "https://red-witty-gosling.cyclic.app/"
+const baseURL = "https://cfdaily.azurewebsites.net/"
 
 let isRefreshTokenFetched = false;
 const customAxios = axios.create({
