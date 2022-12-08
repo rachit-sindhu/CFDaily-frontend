@@ -2,9 +2,11 @@ import axios from "axios";
 import {AuthActions} from '../store/reducers/auth';
 import {store} from '../store/store';
 
+const baseURL = "https://red-witty-gosling.cyclic.app/"
+
 let isRefreshTokenFetched = false;
 const customAxios = axios.create({
-  baseURL: "https://red-witty-gosling.cyclic.app/",
+  baseURL: baseURL,
 });
 
 customAxios.interceptors.request.use((config) => {
@@ -27,7 +29,7 @@ customAxios.interceptors.response.use(
 
     if (error.response.status === 401 && !isRefreshTokenFetched) {
       isRefreshTokenFetched = true;
-      const res = await customAxios.post("http://localhost:8000/api/v1/users/refreshToken", {
+      const res = await customAxios.post(`${baseURL}api/v1/users/refreshToken`, {
         refreshToken: localStorage.getItem("refresh_token"),
       });
       console.log("fetching refresh token");
