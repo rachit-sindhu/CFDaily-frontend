@@ -1,7 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import customAxios from "../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../Apis/baseAxios";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import styles from "./SignUpForm.module.css";
 import VerifyOtp from "./VerifyOtp/VerifyOtp";
@@ -33,6 +33,12 @@ const SignUpForm = () => {
 
   const signup = async () => {
 
+    setCfHandle(cfHandle.trim());
+    setEmail(email.trim());
+    setName(name.trim());
+    setPassword(password.trim());
+    setCnfPassword(passwordConfirm.trim());
+
     if(cfHandle.length < 2){
       setError("Cf handle length should be atleast 2");
       return;
@@ -61,14 +67,14 @@ const SignUpForm = () => {
     setError(null);
 
     try {
-      const res = await customAxios.post("/api/v1/users/signup", {
+      const res = await axios.post("/api/v1/users/signup", {
         handle:cfHandle,
         name,
         email,
         password,
         passwordConfirm,
       });
-      console.log(res);
+
       localStorage.setItem("access_token", res.data.token);
       navigate("/auth/signup/verify", {
         state:{
@@ -76,7 +82,6 @@ const SignUpForm = () => {
         }
       });
     } catch (err) {
-      console.log(err)
       const emsg = err.response.data.message;
       setError(emsg);
     }
@@ -102,14 +107,14 @@ const SignUpForm = () => {
               variant="outlined"
               style={InputCss}
               value={cfHandle}
-              onChange={(e) => setCfHandle(e.target.value.trim())}
+              onChange={(e) => setCfHandle(e.target.value)}
             />
             <TextField
               label="Name"
               variant="outlined"
               style={InputCss}
               value={name}
-              onChange={(e) => setName(e.target.value.trim())}
+              onChange={(e) => setName(e.target.value)}
             />
             <TextField
               label="Email"
@@ -117,21 +122,21 @@ const SignUpForm = () => {
               style={InputCss}
               value={email}
               type="email"
-              onChange={(e) => setEmail(e.target.value.trim())}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               label="Password"
               variant="outlined"
               style={InputCss}
               value={password}
-              onChange={(e) => setPassword(e.target.value.trim())}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
               label="Confirm Password"
               variant="outlined"
               style={InputCss}
               value={passwordConfirm}
-              onChange={(e) => setCnfPassword(e.target.value.trim())}
+              onChange={(e) => setCnfPassword(e.target.value)}
             />
             {error && <ErrorMessage message={error} />}
             <Button

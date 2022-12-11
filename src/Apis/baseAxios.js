@@ -2,12 +2,24 @@ import axios from "axios";
 import {AuthActions} from '../store/reducers/auth';
 import {store} from '../store/store';
 
-const baseURL = "https://cfdaily.azurewebsites.net/"
+// const baseURL = "https://cfdaily.azurewebsites.net/"
+const baseURL = "http://localhost:8000"
 
 let isRefreshTokenFetched = false;
+
+const simpleAxios = axios.create({
+  baseURL: baseURL,
+});
+
+simpleAxios.interceptors.request.use((config) => {
+  config.headers["Authorization"] = `Bearer ${localStorage.getItem("access_token")}`;
+  return config;
+});
+
 const customAxios = axios.create({
   baseURL: baseURL,
 });
+
 
 customAxios.interceptors.request.use((config) => {
   config.headers["Authorization"] = `Bearer ${localStorage.getItem("access_token")}`;
@@ -21,6 +33,9 @@ customAxios.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
 
+    console.log(error)
+    console.log(error.response.status)
+
     if (error.response.status === 401 && isRefreshTokenFetched) {
       isRefreshTokenFetched = false;
       store.dispatch(AuthActions.logout()); //we were not able to fetch refresh token we logout.
@@ -29,7 +44,7 @@ customAxios.interceptors.response.use(
 
     if (error.response.status === 401 && !isRefreshTokenFetched) {
       isRefreshTokenFetched = true;
-      const res = await customAxios.post(`${baseURL}api/v1/users/refreshToken`, {
+      const res = await customAxios.post(`/api/v1/users/refreshToken`, {
         refreshToken: localStorage.getItem("refresh_token"),
       });
       console.log("fetching refresh token");
@@ -47,4 +62,6 @@ customAxios.interceptors.response.use(
   }
 );
 
+
+export {simpleAxios};
 export default customAxios;

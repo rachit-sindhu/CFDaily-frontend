@@ -1,7 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import customAxios from "../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../Apis/baseAxios";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import styles from "./ForgetPassword.module.css";
 import ResetPassword from "./ResetPassword/ResetPassword";
@@ -29,6 +29,7 @@ const ForgetPasswordForm = () => {
 
   const requestOTP = async () => {
 
+    setEmail(email.trim());
     if(!validateEmail(email)){
       setError("Enter a valid email");
       return;
@@ -38,7 +39,7 @@ const ForgetPasswordForm = () => {
     setError(null);
 
     try {
-      const res = await customAxios.post("/api/v1/users/forgotPassword/", {
+      const res = await axios.post("/api/v1/users/forgotPassword/", {
         email,
       });
       setError(null);
@@ -68,13 +69,12 @@ const ForgetPasswordForm = () => {
               </Button>
             </p>
             <TextField
-              id="outlined-basic"
               label="Email"
               variant="outlined"
               style={InputCss}
               value={email}
               type="email"
-              onChange={(e) => setEmail(e.target.value.trim())}
+              onChange={(e) => setEmail(e.target.value)}
             />
             {error && <ErrorMessage message={error} />}
             <Button

@@ -2,7 +2,7 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import customAxios from "../../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../../Apis/baseAxios";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "./VerifyOtp.module.css";
 import { AuthActions } from "../../../../store/reducers/auth";
@@ -23,6 +23,7 @@ const VerifyOtp = () => {
 
   const verifySignupOTP = async () => {
 
+    setOtp(otp.trim());
     if(otp.length < 4){
       setError("enter a valid otp");
       return;
@@ -32,7 +33,7 @@ const VerifyOtp = () => {
     setLoading(true);
 
     try{
-      const res = await customAxios.post("/api/v1/users/verifyEmail", {
+      const res = await axios.post("/api/v1/users/verifyEmail", {
         otp,
         email: location.state.email,
       });
@@ -69,7 +70,6 @@ const VerifyOtp = () => {
       </p>
 
       <TextField
-        id="outlined-basic"
         label="Enter OTP"
         variant="outlined"
         style={InputCss}

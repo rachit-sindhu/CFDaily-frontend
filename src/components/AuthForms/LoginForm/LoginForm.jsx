@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../Apis/baseAxios";
 import { AuthActions } from "../../../store/reducers/auth";
 import ErrorMessage from "../../UI/ErrorMessage/ErrorMessage";
 import styles from "./LoginForm.module.css";
@@ -33,6 +33,9 @@ const LoginForm = () => {
 
   const login = async () => {
 
+    setEmail(email.trim());
+    setPassword(password.trim());
+
     if(!validateEmail(email)){
       setError("Enter a valid email");
       return;
@@ -54,7 +57,6 @@ const LoginForm = () => {
       dispatch(AuthActions.tryAutoLogin());
 
     } catch (err) {
-      console.log(err)
       const emsg = err.response.data.message;
       if(emsg == "User not verified"){
         await axios.post("/api/v1/users/sendOtp", {email});
@@ -86,25 +88,23 @@ const LoginForm = () => {
       </p>
 
       <TextField
-        id="outlined-basic"
         label="Email"
         variant="outlined"
         style={InputCss}
         value={email}
         type="email"
         onChange={(e) => {
-          setEmail(e.target.value.trim());
+          setEmail(e.target.value);
         }}
       />
       <TextField
-        id="outlined-basic"
         label="Password"
         variant="outlined"
         style={InputCss}
         value={password}
         type={"password"}
         onChange={(e) => {
-          setPassword(e.target.value.trim());
+          setPassword(e.target.value);
         }}
       />
       {error && <ErrorMessage message={error} />}

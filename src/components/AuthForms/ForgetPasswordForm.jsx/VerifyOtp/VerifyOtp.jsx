@@ -1,7 +1,7 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
-import customAxios from "../../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../../Apis/baseAxios";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "./VerifyOtp.module.css";
 
@@ -21,6 +21,7 @@ const VerifyOtp = () => {
 
   const verifyOTP = async () => {
 
+    setOtp(otp.trim());
     if(otp.length < 4){
       setError("enter a valid otp");
       return;
@@ -30,13 +31,12 @@ const VerifyOtp = () => {
     setLoading(true);
 
     try{
-      const res = await customAxios.post("api/v1/users/verifyOtp", {
+      const res = await axios.post("api/v1/users/verifyOtp", {
         email: location.state.email,
         otp,
       });
-      console.log(res)
       setError(null);
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('access_token', res.data.token);
       navigate("/auth/forget/resetPassword",{
         state:{
           otpVerified: true,
@@ -70,12 +70,11 @@ const VerifyOtp = () => {
       </p>
 
       <TextField
-        id="outlined-basic"
         label="Enter OTP"
         variant="outlined"
         style={InputCss}
         value={otp}
-        onChange={(e) => setOtp(e.target.value.trim())}
+        onChange={(e) => setOtp(e.target.value)}
       />
       {error && <ErrorMessage message={error} />}
       <Button

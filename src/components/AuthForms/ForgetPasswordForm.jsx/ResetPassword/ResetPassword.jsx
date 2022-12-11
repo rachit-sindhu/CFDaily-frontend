@@ -2,7 +2,7 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import customAxios from "../../../../Apis/baseAxios";
+import {simpleAxios as axios} from "../../../../Apis/baseAxios";
 import { AuthActions } from "../../../../store/reducers/auth";
 import ErrorMessage from "../../../UI/ErrorMessage/ErrorMessage";
 import styles from "./ResetPassword.module.css";
@@ -24,12 +24,15 @@ const ResetPassword = () => {
 
   const updatePassword = async () => {
 
+    setPassword(password.trim());
+    setCnfPassword(cnfpassword.trim());
+
     if(password.length < 6){
       setError("Password length should be atleast 6");
       return;
     }
 
-    if(password != passwordConfirm){
+    if(password != cnfpassword){
       setError("Your password didn't match");
       return;
     }
@@ -38,7 +41,7 @@ const ResetPassword = () => {
     setError(null);
 
     try {
-      const res = await customAxios.patch("api/v1/users/resetPassword", {
+      const res = await axios.patch("api/v1/users/resetPassword", {
         password,
         passwordConfirm: cnfpassword,
       });
@@ -47,7 +50,6 @@ const ResetPassword = () => {
       dispatch(AuthActions.logout());
       navigate("/login");
     } catch (e) {
-      console.log(e);
       setError(e.response.data.message);
     }
 
@@ -73,14 +75,14 @@ const ResetPassword = () => {
         variant="outlined"
         style={InputCss}
         value={password}
-        onChange={(e) => setPassword(e.target.value.trim())}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <TextField
         label="Confirm Password"
         variant="outlined"
         style={InputCss}
         value={cnfpassword}
-        onChange={(e) => setCnfPassword(e.target.value.trim())}
+        onChange={(e) => setCnfPassword(e.target.value)}
       />
       {error && <ErrorMessage message={error} />}
       <Button
