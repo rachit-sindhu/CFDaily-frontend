@@ -2,8 +2,8 @@ import axios from "axios";
 import {AuthActions} from '../store/reducers/auth';
 import {store} from '../store/store';
 
-// const baseURL = "https://cfdaily.azurewebsites.net/"
-const baseURL = "http://localhost:8000"
+const baseURL = "https://cfdaily.azurewebsites.net/"
+// const baseURL = "http://localhost:8000"
 
 let isRefreshTokenFetched = false;
 
