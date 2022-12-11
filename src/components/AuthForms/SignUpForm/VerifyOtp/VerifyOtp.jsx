@@ -22,6 +22,13 @@ const VerifyOtp = () => {
   const dispatch = useDispatch();
 
   const verifySignupOTP = async () => {
+
+    if(otp.length < 4){
+      setError("enter a valid otp");
+      return;
+    }
+
+    setError(null);
     setLoading(true);
 
     try{

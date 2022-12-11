@@ -11,6 +11,14 @@ const InputCss = {
   marginTop: "20px",
 };
 
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const SignUpForm = () => {
   const [cfHandle, setCfHandle] = useState("");
   const [email, setEmail] = useState("");
@@ -22,9 +30,36 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
+
   const signup = async () => {
+
+    if(cfHandle.length < 2){
+      setError("Cf handle length should be atleast 2");
+      return;
+    }
+
+    if(name.length < 3){
+      setError("Name length should be atleast 3");
+      return;
+    }
+
+    if(!validateEmail(email)){
+      setError("Enter a valid email");
+      return;
+    }
+    if(password.length < 6){
+      setError("Password length should be atleast 6");
+      return;
+    }
+
+    if(password != passwordConfirm){
+      setError("Your password didn't match");
+      return;
+    }
+
     setLoading(true);
-    console.log("calling signup")
+    setError(null);
+
     try {
       const res = await customAxios.post("/api/v1/users/signup", {
         handle:cfHandle,
@@ -67,35 +102,36 @@ const SignUpForm = () => {
               variant="outlined"
               style={InputCss}
               value={cfHandle}
-              onChange={(e) => setCfHandle(e.target.value)}
+              onChange={(e) => setCfHandle(e.target.value.trim())}
             />
             <TextField
               label="Name"
               variant="outlined"
               style={InputCss}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value.trim())}
             />
             <TextField
               label="Email"
               variant="outlined"
               style={InputCss}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              onChange={(e) => setEmail(e.target.value.trim())}
             />
             <TextField
               label="Password"
               variant="outlined"
               style={InputCss}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value.trim())}
             />
             <TextField
               label="Confirm Password"
               variant="outlined"
               style={InputCss}
               value={passwordConfirm}
-              onChange={(e) => setCnfPassword(e.target.value)}
+              onChange={(e) => setCnfPassword(e.target.value.trim())}
             />
             {error && <ErrorMessage message={error} />}
             <Button

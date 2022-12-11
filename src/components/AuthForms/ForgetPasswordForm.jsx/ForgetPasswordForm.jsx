@@ -12,6 +12,14 @@ const InputCss = {
   marginTop: "20px",
 };
 
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const ForgetPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,7 +28,14 @@ const ForgetPasswordForm = () => {
   const navigate = useNavigate();
 
   const requestOTP = async () => {
+
+    if(!validateEmail(email)){
+      setError("Enter a valid email");
+      return;
+    }
+
     setLoading(true);
+    setError(null);
 
     try {
       const res = await customAxios.post("/api/v1/users/forgotPassword/", {
@@ -58,7 +73,8 @@ const ForgetPasswordForm = () => {
               variant="outlined"
               style={InputCss}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              onChange={(e) => setEmail(e.target.value.trim())}
             />
             {error && <ErrorMessage message={error} />}
             <Button

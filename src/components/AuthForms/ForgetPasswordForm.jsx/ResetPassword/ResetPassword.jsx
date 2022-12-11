@@ -23,7 +23,19 @@ const ResetPassword = () => {
   const location = useLocation();
 
   const updatePassword = async () => {
+
+    if(password.length < 6){
+      setError("Password length should be atleast 6");
+      return;
+    }
+
+    if(password != passwordConfirm){
+      setError("Your password didn't match");
+      return;
+    }
+
     setLoading(true);
+    setError(null);
 
     try {
       const res = await customAxios.patch("api/v1/users/resetPassword", {
@@ -61,14 +73,14 @@ const ResetPassword = () => {
         variant="outlined"
         style={InputCss}
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value.trim())}
       />
       <TextField
         label="Confirm Password"
         variant="outlined"
         style={InputCss}
         value={cnfpassword}
-        onChange={(e) => setCnfPassword(e.target.value)}
+        onChange={(e) => setCnfPassword(e.target.value.trim())}
       />
       {error && <ErrorMessage message={error} />}
       <Button

@@ -21,6 +21,12 @@ const VerifyOtp = () => {
 
   const verifyOTP = async () => {
 
+    if(otp.length < 4){
+      setError("enter a valid otp");
+      return;
+    }
+
+    setError(null);
     setLoading(true);
 
     try{
@@ -69,7 +75,7 @@ const VerifyOtp = () => {
         variant="outlined"
         style={InputCss}
         value={otp}
-        onChange={(e) => setOtp(e.target.value)}
+        onChange={(e) => setOtp(e.target.value.trim())}
       />
       {error && <ErrorMessage message={error} />}
       <Button

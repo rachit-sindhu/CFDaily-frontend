@@ -10,7 +10,15 @@ const UpdateCFHandle = ({ closeButton }) => {
   const [error, setError] = useState(null);
 
   const updateCfHandle = async () => {
+
+    if(CfHandle.length < 2){
+      setError("Cf handle length should be atleast 2");
+      return;
+    }
+
     setLoading(true);
+    setError(null);
+
     try{
       const res = await axios.post('/api/v1/users/addHandle/',{
         handle: CfHandle,
@@ -34,7 +42,7 @@ const UpdateCFHandle = ({ closeButton }) => {
         <input
           placeholder="Enter your cf handle"
           value={CfHandle}
-          onChange={(e) => setCfHandle(e.target.value)}
+          onChange={(e) => setCfHandle(e.target.value.trim())}
         />
         {error && <ErrorMessage message={error} />}
         <Button

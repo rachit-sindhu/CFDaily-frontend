@@ -13,6 +13,14 @@ const InputCss = {
   marginTop: "20px",
 };
 
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +32,20 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const login = async () => {
+
+    if(!validateEmail(email)){
+      setError("Enter a valid email");
+      return;
+    }
+
+    if(password.length < 6){
+      setError("Password length should be atleast 6");
+      return;
+    }
+
     setLoading(true);
+    setError(null);
+
     try {
       const res = await axios.post("/api/v1/users/login", { email, password });
       setError(null);
@@ -70,8 +91,9 @@ const LoginForm = () => {
         variant="outlined"
         style={InputCss}
         value={email}
+        type="email"
         onChange={(e) => {
-          setEmail(e.target.value);
+          setEmail(e.target.value.trim());
         }}
       />
       <TextField
@@ -82,7 +104,7 @@ const LoginForm = () => {
         value={password}
         type={"password"}
         onChange={(e) => {
-          setPassword(e.target.value);
+          setPassword(e.target.value.trim());
         }}
       />
       {error && <ErrorMessage message={error} />}
