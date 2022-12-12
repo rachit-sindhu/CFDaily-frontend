@@ -12,6 +12,7 @@ export const fetchMonthQuestion = async () => {
     const res = await axios.post("/api/v1/problems/monthlyQuestions", {
       date: currMonth,
     });
+    console.log(res.data.data)
     store.dispatch(ProblemsDataActions.setMonthlyProblems(res.data.data));
   } catch (e) {
     console.log("failed to fetch month problems");
