@@ -18,7 +18,7 @@ export const refreshProfile = async () => {
   store.dispatch(UserDataActions.setLoading(true));
   try {
     const res = await axios.patch("/api/v1/users/refresh");
-    if(res.data.user.handle.rank != store.getState().userData.handle.rank){
+    if(res.data.user.handle.rank !== store.getState().userData.profileData.handle.rank){
         await fetchMonthQuestion(new Date());
         store.dispatch(ProblemsDataActions.setDailyChallenge());
     }

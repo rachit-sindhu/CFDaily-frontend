@@ -5,6 +5,7 @@ import { ProblemsDataActions } from "../store/reducers/problemsData";
 import { ModalAction } from "../store/reducers/modal";
 
 export const fetchMonthQuestion = async () => {
+  console.log("fetching questions")
   store.dispatch(ProblemsDataActions.setLoading(true));
   const currMonth = store.getState().problemsData.currentMonth;
   try {
