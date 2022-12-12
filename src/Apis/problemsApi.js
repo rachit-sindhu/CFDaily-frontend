@@ -5,14 +5,12 @@ import { ProblemsDataActions } from "../store/reducers/problemsData";
 import { ModalAction } from "../store/reducers/modal";
 
 export const fetchMonthQuestion = async () => {
-  console.log("fetching questions")
   store.dispatch(ProblemsDataActions.setLoading(true));
   const currMonth = store.getState().problemsData.currentMonth;
   try {
     const res = await axios.post("/api/v1/problems/monthlyQuestions", {
       date: currMonth,
     });
-    console.log(res.data.data)
     store.dispatch(ProblemsDataActions.setMonthlyProblems(res.data.data));
   } catch (e) {
     console.log("failed to fetch month problems");
@@ -26,9 +24,8 @@ export const showModalAndSetQuestion = (index) => {
 };
 
 export const validateQuestion = async () => {
-  let { selectedModalQuestionIndex, monthlyProblems } =
+  let { calenderQuestion: question, monthlyProblems, calQuestionIndex} =
     store.getState().problemsData;
-  const question = monthlyProblems[selectedModalQuestionIndex];
   //question is the question user want to validate,
 
   store.dispatch(ProblemsDataActions.setValidateLoading(true));
@@ -39,13 +36,13 @@ export const validateQuestion = async () => {
       date: questiondate,
     });
 
-    let newMonthlyProblems = monthlyProblems.map(ques => {
-        return {
-            ...ques,
-        }
-    })
+    let newMonthlyProblems = monthlyProblems.map((ques) => {
+      return {
+        ...ques,
+      };
+    });
 
-    newMonthlyProblems[selectedModalQuestionIndex].solved = true
+    newMonthlyProblems[calQuestionIndex].solved = true;
     store.dispatch(ProblemsDataActions.setMonthlyProblems(newMonthlyProblems));
     fetchUserDetails();
   } catch (e) {

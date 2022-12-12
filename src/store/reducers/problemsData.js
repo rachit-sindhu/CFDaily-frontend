@@ -6,6 +6,7 @@ const initialState = {
     loading: true,
     validateLoading: false,
     calenderQuestion: null,
+    calQuestionIndex: null,
     currentMonth : new Date(),
 };
 
@@ -20,11 +21,15 @@ const ProblemsDataSlice = createSlice({
                 let n = state.monthlyProblems.length;
                 state.dailyChallenge = state.monthlyProblems[n-1];
             }
+            if(state.calQuestionIndex != null){
+                state.calenderQuestion = state.monthlyProblems[state.calQuestionIndex];
+            }
         },
         setLoading: (state, action) => {
             state.loading = action.payload;
         },
         setQuestionIndex : (state, action) => {
+            state.calQuestionIndex = action.payload;
             state.calenderQuestion = state.monthlyProblems[action.payload];
         },
         setValidateLoading: (state, action) => {

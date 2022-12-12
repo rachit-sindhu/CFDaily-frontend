@@ -77,6 +77,7 @@ const Calender = () => {
                 onClick={() => {
                   showModalAndSetQuestion(ind);
                 }}
+                key={i+j}
               >
                 {monthlyProblems[mDPI].solved ? null : displayday}
               </div>
@@ -94,7 +95,7 @@ const Calender = () => {
         day++;
       }
 
-      cal.push(<div className={styles.Row}>{currrow}</div>);
+      cal.push(<div className={styles.Row} key={i}>{currrow}</div>);
 
       if (displayday > noofdays) break;
     }
@@ -141,7 +142,7 @@ const Calender = () => {
             </div>
             <div className={styles.Row}>
               {["M", "T", "W", "TH", "F", "ST", "S"].map((ele) => {
-                return <div className={styles.DisabledCell}>{ele}</div>;
+                return <div className={styles.DisabledCell} key={ele}>{ele}</div>;
               })}
             </div>
             <div style={{ marginTop: "40px" }}></div>
